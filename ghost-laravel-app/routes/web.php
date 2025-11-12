@@ -3,7 +3,11 @@
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return 'Main Page';
+    //return 'Main Page'; //this is the lending page
+    return view(
+        'index',
+        ['name' => 'John Doe']
+    ); // you can manually just dump data here
 });
 
 Route::get('/xxx', function () {
