@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
 
 class Task
@@ -55,16 +56,27 @@ $tasks = [
   ),
 ];
 
+
 //you need to utilize use() function since return here is anonymous, and data will not be available otherwise
-Route::get('/', function () use ($tasks) {
+Route::get('/tasks', function () use ($tasks) {
     //return 'Main Page'; //this is the lending page
     //return view('index', ['name' => 'John Doe']); // you can manually just dump data here
     return view('index', [ 'tasks' => $tasks]);
 
 }) -> name('tasks.index');
 
-Route::get('/{id}', function ($id) {
-    return 'this is is details of a task';
+Route::get('/', function () {
+    return redirect() -> route('tasks.index');
+});
+
+
+Route::get('/tasks/{id}', function ($id) use ($tasks) {
+    // return 'this is is details of a task';
+    $task = collect($tasks)->firstWhere('id', $id);
+    if (!$task) {
+        abort(Response::HTTP_NOT_FOUND);
+    }
+    return view('show', ['task' => $task]);
 }) -> name('tasks.show');
 
 // Route::get('/xxx', function () {

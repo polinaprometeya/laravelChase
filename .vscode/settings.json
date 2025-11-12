@@ -1,3 +1,10 @@
 {
-  "cSpell.words": ["endforeach", "endforelse", "forelse", "isset", "endisset"]
+  "cSpell.words": [
+    "endforeach",
+    "endforelse",
+    "endisset",
+    "endsection",
+    "forelse",
+    "isset"
+  ]
 }
