@@ -17,7 +17,7 @@
 @endsection
 
 @section('content')
-    <form method="POST" action="{{ route('tasks.update', ['id' => $task->id]) }}">
+    <form method="POST" action="{{ route('tasks.update', ['task' => $task->id]) }}">
         @csrf
         @method('PUT')
         {{-- this put thing is method spoofing , since HTTP browser does not do PUT --}}
