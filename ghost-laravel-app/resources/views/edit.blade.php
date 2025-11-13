@@ -10,7 +10,7 @@
             size: 0.8rem;
         }
 
-        .label {
+        .label-look {
             white-space: pre-wrap;
         }
     </style>
@@ -23,7 +23,7 @@
         {{-- this put thing is method spoofing , since HTTP browser does not do PUT --}}
 
         <div>
-            <label for="title" class="label">Title</label>
+            <label for="title" class="label-look">Title</label>
             <input id="id" name="title" type="text" required value={{ $task->title }}></input>
 
             @error('title')
@@ -32,14 +32,14 @@
 
         </div>
         <div>
-            <label for="description" class="label">Description</label>
+            <label for="description" class="label-look">Description</label>
             <textarea id="description" name="description" rows="5" required> {{ $task->description }} </textarea>
             @error('description')
                 <p class="error-message">{{ $message }}</p>
             @enderror
         </div>
         <div>
-            <label for="long_description" class="label"> Long Description</label>
+            <label for="long_description" class="label-look"> Long Description</label>
             <textarea id="long_description" name="long_description" rows="10"> {{ $task->long_description }} </textarea>
             @error('long_description')
                 <p class="error-message">{{ $message }}</p>

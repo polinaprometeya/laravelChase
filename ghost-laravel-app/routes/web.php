@@ -90,7 +90,7 @@ Route::get('/tasks/{id}/edit', function ($id) {
 
 Route::put('/tasks/{id}', function (Request $request, $id) {
     $data = $request->validate([
-        'title' => 'required | max:255',
+        'title' => 'required | max:50',
         'description' => 'required | max:5009',
         'long_description' => 'max:2000 ',
 
@@ -113,7 +113,7 @@ Route::put('/tasks/{id}', function (Request $request, $id) {
 
 Route::post('/tasks', function (Request $request) {
     $data = $request->validate([
-        'title' => 'required | max:255',
+        'title' => 'required | max:50',
         'description' => 'required | max:5009',
         'long_description' => 'max:2000 ',
 

@@ -26,7 +26,8 @@
 
         <div>
             <label for="title" class="label">Title</label>
-            <input id="id" name="title" type="text" required placeholder="Write title"></input>
+            <input id="id" name="title" type="text" required placeholder="Write title"
+                value={{ old('title') }}></input>
 
             @error('title')
                 <p class="error-message">{{ $message }}</p>
@@ -35,14 +36,14 @@
         </div>
         <div>
             <label for="description" class="label">Description</label>
-            <textarea id="description" name="description" rows="5" required placeholder="Write short description"></textarea>
+            <textarea id="description" name="description" rows="5" required placeholder="Write short description">{{ old('description') }}</textarea>
             @error('description')
                 <p class="error-message">{{ $message }}</p>
             @enderror
         </div>
         <div>
             <label for="long_description" class="label"> Long Description</label>
-            <textarea id="long_description" name="long_description" rows="10" placeholder="Write long description"></textarea>
+            <textarea id="long_description" name="long_description" rows="10" placeholder="Write long description">{{ old('long_description') }}</textarea>
             @error('long_description')
                 <p class="error-message">{{ $message }}</p>
             @enderror
