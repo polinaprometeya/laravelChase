@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Http\Response;
+use Illuminate\Validation\Rules\In;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 // class Task
@@ -57,11 +59,11 @@ use Illuminate\Support\Facades\Route;
 // ];
 
 
-//you need to utilize use() function since return here is anonymous, and data will not be available otherwise
+//---you need to utilize use() function since return here is anonymous, and data will not be available otherwise
 Route::get('/tasks', function () {
     //return 'Main Page'; //this is the lending page
     //return view('index', ['name' => 'John Doe']); // you can manually just dump data here
-    //the queries are structured in object oriented way that can be specified. 'tasks' => \App\Models\Task::latest()->where('completed',true)->get()
+    //---the queries are structured in object oriented way that can be specified. 'tasks' => \App\Models\Task::latest()->where('completed',true)->get()
     return view('index', ['tasks' => \App\Models\Task::latest()->get()
 ]);
 
@@ -70,11 +72,24 @@ Route::get('/tasks', function () {
 Route::get('/', function () {
     return redirect() -> route('tasks.index');
 });
+Route::view('/tasks/create', 'create') -> name('tasks.create');
 
-//find does not take into consideration ids that do not exist
+//---find does not take into consideration ids that do not exist.
+//The order of routes matters, since the {id} would catch 'create' and assume it is aan id.
+
 Route::get('/tasks/{id}', function ($id) {
     return view('show', ['task' => \App\Models\Task::findOrFail($id)]);
 }) -> name('tasks.show');
+
+Route::post('/tasks', function (Request $request) {
+    dd($request->all());
+}) -> name('tasks.store');
+
+Route::fallback(function () {
+    return 'This path does not exist!';
+});
+// ---fallback redirect all wrong path and shows this message
+
 
 // Route::get('/tasks/{id}', function ($id) use ($tasks) {
 //     // return 'this is is details of a task';
@@ -87,16 +102,15 @@ Route::get('/tasks/{id}', function ($id) {
 
 // Route::get('/xxx', function () {
 //     return 'Hello';
-// })->name('route-name'); //when you name a route you give it alias that can always be used to identify it
+// })->name('route-name');
+//---when you name a route you give it alias that can always be used to identify it
 
 // Route::get('/wrong', function () {
 //     return redirect()->route('hello');
-// }); //this helps to redirect different path somewhere
+// });
+//---this helps to redirect different path somewhere
 
 // Route::get('greet/{name}', function ($name) {
 //     return 'Hello ' . $name . '!';
-// }); //this accepts the value directly and shows it
-
-// Route::fallback(function () {
-//     return 'This path does not exist!';
-// }); // fallback redirect all wrong path and shows this message
+// });
+//---this accepts the value directly and shows it
