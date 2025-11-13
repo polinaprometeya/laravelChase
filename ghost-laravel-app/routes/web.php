@@ -83,6 +83,34 @@ Route::get('/tasks/{id}', function ($id) {
     return view('show', ['task' => Task::findOrFail($id)]);
 }) -> name('tasks.show');
 
+Route::get('/tasks/{id}/edit', function ($id) {
+    return view('edit', ['task' => Task::findOrFail($id)]);
+}) -> name('tasks.edit');
+
+
+Route::put('/tasks/{id}', function (Request $request, $id) {
+    $data = $request->validate([
+        'title' => 'required | max:255',
+        'description' => 'required | max:5009',
+        'long_description' => 'max:2000 ',
+
+    ]);
+
+    $task = Task::findOrFail($id);
+    //find instance
+
+    //refill til instance
+    $task->title = $data['title'];
+    $task->description = $data['description'];
+    $task->long_description = $data['long_description'];
+
+
+    $task->save(); // this runs update query as well
+
+    return redirect() -> route('tasks.show', [$task->id])->with('success', "Task is updated successfully"); //flash message, toast
+
+}) -> name('tasks.update');
+
 Route::post('/tasks', function (Request $request) {
     $data = $request->validate([
         'title' => 'required | max:255',
