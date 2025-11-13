@@ -18,6 +18,8 @@ return [
     |
     */
 
+    //the best is to use "memcached" && "redis" for laravel. redis is a server storage method
+
     'driver' => env('SESSION_DRIVER', 'database'),
 
     /*

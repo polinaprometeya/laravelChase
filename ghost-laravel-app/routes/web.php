@@ -4,6 +4,7 @@ use Illuminate\Http\Response;
 use Illuminate\Validation\Rules\In;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Models\Task;
 
 // class Task
 // {
@@ -63,8 +64,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/tasks', function () {
     //return 'Main Page'; //this is the lending page
     //return view('index', ['name' => 'John Doe']); // you can manually just dump data here
+
     //---the queries are structured in object oriented way that can be specified. 'tasks' => \App\Models\Task::latest()->where('completed',true)->get()
-    return view('index', ['tasks' => \App\Models\Task::latest()->get()
+    return view('index', ['tasks' => Task::latest()->get()
 ]);
 
 }) -> name('tasks.index');
@@ -78,11 +80,29 @@ Route::view('/tasks/create', 'create') -> name('tasks.create');
 //The order of routes matters, since the {id} would catch 'create' and assume it is aan id.
 
 Route::get('/tasks/{id}', function ($id) {
-    return view('show', ['task' => \App\Models\Task::findOrFail($id)]);
+    return view('show', ['task' => Task::findOrFail($id)]);
 }) -> name('tasks.show');
 
 Route::post('/tasks', function (Request $request) {
-    dd($request->all());
+    $data = $request->validate([
+        'title' => 'required | max:255',
+        'description' => 'required | max:5009',
+        'long_description' => 'max:2000 ',
+
+    ]);
+
+    $task = new Task(); //creating new instance
+    //populating instance
+
+    $task->title = $data['title'];
+    $task->description = $data['description'];
+    $task->long_description = $data['long_description'];
+
+    //save populated data in the model, because of a new model it will know it needs to make insert query
+    $task->save();
+
+    return redirect() -> route('tasks.show', [$task->id])->with('success', "Task is created successfully"); //flash message, toast
+
 }) -> name('tasks.store');
 
 Route::fallback(function () {
