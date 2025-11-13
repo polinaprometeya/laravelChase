@@ -3,6 +3,10 @@
 @section('title', 'List of tasks:')
 
 @section('content')
+
+    @if (session()->has('success'))
+        <div>{{ session('success') }}</div>
+    @endif
     {{-- directive -- this is everything that starts with @,
  this prevents errors and executes code conditionally --}}
     {{-- @isset($name) <p>Welcome back: {{ $name }}</p>@endisset() --}}

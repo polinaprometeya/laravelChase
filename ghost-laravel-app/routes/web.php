@@ -65,6 +65,13 @@ Route::put('/tasks/{task}', function (TaskRequest $request, Task $task) {
     return redirect() -> route('tasks.show', [$task->id])->with('success', "Task is updated successfully"); //flash message, toast
 }) -> name('tasks.update');
 
+///-------Delete task
+
+Route::delete('/tasks/{task}', function (Task $task) {
+    $task -> delete();
+    return redirect() -> route('tasks.index')-> with('success', "Task deleted successfully!");
+})->name('task.destroy');
+
 ///-------Fallback
 Route::fallback(function () {
     return 'This path does not exist!';
