@@ -3,7 +3,9 @@
 @section('title', 'List of tasks:')
 
 @section('content')
-
+    <div>
+        <a href="{{ route('tasks.create') }}" role="button"> Create Task</a>
+    </div>
     @if (session()->has('success'))
         <div>{{ session('success') }}</div>
     @endif
@@ -26,6 +28,7 @@
     @empty
         <p>There are no tasks</p>
     @endforelse
+
 
     @if ($task->count())
         <nav>{{ $tasks->links() }}</nav>
