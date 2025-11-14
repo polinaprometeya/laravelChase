@@ -11,7 +11,7 @@
         <div>{{ session('success') }}</div>
     @endif
     {{-- directive -- this is everything that starts with @,
- this prevents errors and executes code conditionally --}}
+    this prevents errors and executes code conditionally --}}
     {{-- @isset($name) <p>Welcome back: {{ $name }}</p>@endisset() --}}
 
     {{-- @if (count($tasks))
@@ -31,7 +31,7 @@
     @endforelse
 
 
-    @if ($task->count())
+    @if ($tasks->count())
         <nav class="mt-4">{{ $tasks->links() }}</nav>
     @endif
 @endsection

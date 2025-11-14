@@ -4,15 +4,23 @@
 <head>
     <title>To-do list</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+
     {{-- blade-formatter-disable --}}
     <style type="text/tailwindcss">
-    .btn {
-        @apply rounded-md px-2 py-1 text-center font-medium text-slate-700 shadow-sm ring-1 ring-slate-700/10 hover:bg-slate-100
-    }
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
 
-    .link{
-        @apply font-medium text-grey-700 underline decoration-pink-200
-    }
+            .btn {
+                @apply rounded-md px-2 py-1 text-center font-medium text-slate-700 shadow-sm ring-1 ring-slate-700/10 hover:bg-slate-100;
+            }
+
+            .link {
+                @apply font-medium text-gray-700 underline decoration-pink-200;
+            }
+        }
     </style>
     {{-- blade-formatter-enable --}}
 
