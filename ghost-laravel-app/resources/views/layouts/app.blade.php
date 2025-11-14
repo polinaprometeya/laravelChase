@@ -62,9 +62,10 @@
 
                 </span>
             </div>
-            @yield('content')
+        @endif
+        @yield('content')
     </div>
-    @endif
+
 
 </body>
 
