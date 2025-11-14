@@ -3,9 +3,10 @@
 @section('title', 'List of tasks:')
 
 @section('content')
-    <div>
-        <a href="{{ route('tasks.create') }}" role="button"> Create Task</a>
-    </div>
+    <nav class="mb-4">
+        <a href="{{ route('tasks.create') }}" role="button" class="font-medium text-grey-700 underline decoration-pink-200">
+            Create Task</a>
+    </nav>
     @if (session()->has('success'))
         <div>{{ session('success') }}</div>
     @endif
@@ -21,7 +22,7 @@
 
     @forelse ($tasks as $task)
         <div>
-            <a href="{{ route('tasks.show', ['task' => $task->id]) }}">
+            <a href="{{ route('tasks.show', ['task' => $task->id]) }}" @class(['line-through' => $task->completed])>
                 <li>{{ $task->title }}</li>
             </a>
         </div>
@@ -31,6 +32,6 @@
 
 
     @if ($task->count())
-        <nav>{{ $tasks->links() }}</nav>
+        <nav class="mt-4">{{ $tasks->links() }}</nav>
     @endif
 @endsection
