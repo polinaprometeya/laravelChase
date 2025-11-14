@@ -7,9 +7,6 @@
         <a href="{{ route('tasks.create') }}" role="button" class="link">
             Create Task</a>
     </nav>
-    @if (session()->has('success'))
-        <div>{{ session('success') }}</div>
-    @endif
     {{-- directive -- this is everything that starts with @,
     this prevents errors and executes code conditionally --}}
     {{-- @isset($name) <p>Welcome back: {{ $name }}</p>@endisset() --}}
