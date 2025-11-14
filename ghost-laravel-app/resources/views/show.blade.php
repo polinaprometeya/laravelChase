@@ -6,46 +6,47 @@
 @endsection
 
 @section('content')
-    <p>{{ $task->description }}</p>
+    <div class="mb-4">
+        <a href="{{ route('tasks.index') }}" class="link"> ← Go Back to view all tasks</a>
+    </div>
+    <p class="mb-4 text-slate-700">{{ $task->description }}</p>
 
     @if ($task->long_description)
-        <p>{{ $task->long_description }}</p>
+        <p class="mb-4 text-slate-700">{{ $task->long_description }}</p>
     @endif
 
     @if ($task->completed)
         <p>Task is done !</p>
     @endif
 
-    @if ($task->created_at)
-        <p>Created at: {{ $task->created_at }}</p>
-    @endif
 
-    @if ($task->updated_at)
-        <p>Updated at: {{ $task->updated_at }}</p>
-    @endif
+    <p class="mb- text-sm text-slate-500">Created at: {{ $task->created_at->diffForHumans() }} •
+        Updated at:
+        {{ $task->updated_at->diffForHumans() }}</p>
 
-    <p>
+    <p class="mb-4">
         Status:
         @if ($task->completed)
-            completed
+            <span class="font-medium text-green-500"> completed</span>
         @else
-            not completed
+            <span class="font-medium text-red-500"> not completed</span>
         @endif
     </p>
 
-    <div>
-        <a href="{{ route('tasks.edit', ['task' => $task]) }}" role="button"> Edit</a>
+    <div class="flex gap-2">
+        <a href="{{ route('tasks.edit', ['task' => $task]) }}" role="button" class="btn">
+            Edit</a>
+
+        <form method="POST" action={{ route('tasks.toggle-complete', ['task' => $task]) }}>
+            @csrf
+            @method('PUT')
+            <button type="submit" class="btn">Mark as {{ $task->completed ? 'not completed' : 'completed' }}</button>
+        </form>
+
+        <form method="POST" action={{ route('tasks.destroy', ['task' => $task->id]) }}>
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn">Delete</button>
+        </form>
     </div>
-
-    <form method="POST" action={{ route('tasks.toggle-complete', ['task' => $task]) }}>
-        @csrf
-        @method('PUT')
-        <button type="submit">Mark as {{ $task->completed ? 'not completed' : 'completed' }}</button>
-    </form>
-
-    <form method="POST" action={{ route('tasks.destroy', ['task' => $task->id]) }}>
-        @csrf
-        @method('DELETE')
-        <button type="submit">Delete</button>
-    </form>
 @endsection

@@ -4,7 +4,7 @@
 
 @section('content')
     <nav class="mb-4">
-        <a href="{{ route('tasks.create') }}" role="button" class="font-medium text-grey-700 underline decoration-pink-200">
+        <a href="{{ route('tasks.create') }}" role="button" class="link">
             Create Task</a>
     </nav>
     @if (session()->has('success'))
