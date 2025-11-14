@@ -26,4 +26,8 @@
     @empty
         <p>There are no tasks</p>
     @endforelse
+
+    @if ($task->count())
+        <nav>{{ $tasks->links() }}</nav>
+    @endif
 @endsection

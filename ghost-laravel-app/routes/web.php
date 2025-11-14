@@ -13,7 +13,7 @@ Route::get('/tasks', function () {
     //return view('index', ['name' => 'John Doe']); // you can manually just dump data here
 
     //---the queries are structured in object oriented way that can be specified. 'tasks' => \App\Models\Task::latest()->where('completed',true)->get()
-    return view('index', ['tasks' => Task::latest()->get()
+    return view('index', ['tasks' => Task::latest()->paginate(10)
 ]);
 }) -> name('tasks.index');
 
@@ -79,6 +79,15 @@ Route::fallback(function () {
 });
 
 ///-------OLD
+
+// Route::get('/tasks', function () {
+//     //return 'Main Page'; //this is the lending page
+//     //return view('index', ['name' => 'John Doe']); // you can manually just dump data here
+
+//     //---the queries are structured in object oriented way that can be specified. 'tasks' => \App\Models\Task::latest()->where('completed',true)->get()
+//     return view('index', ['tasks' => Task::latest()->get()
+// ]);
+// }) -> name('tasks.index');
 
 // Route::put('/tasks/{id}', function (Request $request, $id) {
 //     $data = $request->validate([
