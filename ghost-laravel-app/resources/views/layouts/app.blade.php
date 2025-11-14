@@ -20,6 +20,22 @@
             .link {
                 @apply font-medium text-gray-700 underline decoration-pink-200;
             }
+
+            label{
+                @apply block uppercase text-slate-700 mb-2
+            }
+
+            input{
+                @apply shadow-sm appearance-none border-slate-100 w-full py-2 px-3 text-slate-800 mb-2 leading-tight focus:outline-none
+            }
+
+            textarea{
+                @apply shadow-sm appearance-none border-slate-700/40 w-full py-2 px-3 text-slate-700 mb-2 leading-tight focus:outline-none
+            }
+
+            .error{
+                @apply text-red-500 text-sm
+            }
         }
     </style>
     {{-- blade-formatter-enable --}}

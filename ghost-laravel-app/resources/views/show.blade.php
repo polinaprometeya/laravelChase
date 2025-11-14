@@ -27,9 +27,9 @@
     <p class="mb-4">
         Status:
         @if ($task->completed)
-            <span class="font-medium text-green-500"> completed</span>
+            <span class="font-medium text-green-500/50"> completed</span>
         @else
-            <span class="font-medium text-red-500"> not completed</span>
+            <span class="font-medium text-red-500/50"> not completed</span>
         @endif
     </p>
 
