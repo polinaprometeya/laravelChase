@@ -1,0 +1,17 @@
+%% Mermaid diagram describing the task tracker request flow
+flowchart TD
+    Visitor([User Browser])
+    Routes{{`routes/web.php`}}
+    Controller[[`TaskController`]]
+    RequestValidator[[`App\\Http\\Requests\\TaskRequest`]]
+    Model[[`App\\Models\\Task`]]
+    DB[(SQLite / tasks table)]
+
+    Visitor -->|HTTP request| Routes
+    Routes --> Controller
+    Controller -->|Validates input| RequestValidator
+    Controller -->|Reads/Writes| Model
+    Model -->|Eloquent ORM| DB
+
+    Controller -->|Returns Blade views| Visitor
+

@@ -4,9 +4,11 @@
     "type": "module",
     "scripts": {
         "build": "vite build",
-        "dev": "vite"
+        "dev": "vite",
+        "diagram:build": "mmdc -i docs/diagrams/project-overview.mmd -o public/diagrams/project-overview.svg --backgroundColor transparent"
     },
     "devDependencies": {
+        "@mermaid-js/mermaid-cli": "^11.4.2",
         "@tailwindcss/vite": "^4.0.0",
         "axios": "^1.11.0",
         "concurrently": "^9.0.1",

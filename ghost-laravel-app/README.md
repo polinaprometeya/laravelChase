@@ -21,6 +21,35 @@ Laravel is a web application framework with expressive, elegant syntax. We belie
 
 Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
+## Project Overview Diagram
+
+We use [Mermaid](https://github.com/mermaid-js/mermaid) to document the flow of a request through this task-tracking app. GitHub renders the diagram automatically, so you can preview it directly in this README.
+
+```mermaid
+%% Rendered from docs/diagrams/project-overview.mmd
+flowchart TD
+    Visitor([User Browser])
+    Routes{{`routes/web.php`}}
+    Controller[[`TaskController`]]
+    RequestValidator[[`App\\Http\\Requests\\TaskRequest`]]
+    Model[[`App\\Models\\Task`]]
+    DB[(SQLite / tasks table)]
+
+    Visitor -->|HTTP request| Routes
+    Routes --> Controller
+    Controller -->|Validates input| RequestValidator
+    Controller -->|Reads/Writes| Model
+    Model -->|Eloquent ORM| DB
+
+    Controller -->|Returns Blade views| Visitor
+```
+
+### Updating the diagram locally
+
+1. Edit the source at `docs/diagrams/project-overview.mmd`.
+2. Install the CLI once: `npm install`.
+3. Export an SVG for sharing outside GitHub: `npm run diagram:build` (outputs to `public/diagrams/project-overview.svg`).
+
 ## Learning Laravel
 
 Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
