@@ -17,12 +17,13 @@ class BookController extends Controller
             $title,
             fn ($query, $title) => $query->title($title)
         )->get();
+        return view('books.index', ['books' => $books]);
 
         //  $books = Book::when($title, function ($query, $title) {
         //  return  $query->title($title);
         // })->get();
         //this runs only when title is not null, it is a conditional statement helped by When
-
+        // return view('books.index',  compact('books'));
     }
 
     /**

@@ -1,0 +1,76 @@
+@extends('layouts.app')
+
+@section('content')
+    <h1 class="mb-10 text-2xl">Book Reviews</h1>
+
+    <Form></Form>
+    <ul>
+        @forelse ($books as $book)
+            <li class="mb-4">
+                <div class="book-item">
+                    <div class="flex flex-wrap items-center justify-between">
+                        <div class="w-full flex-grow sm:w-auto">
+                            <a href="{{ route('books.show', $book) }}" class="book-title">{{ $book->title }}</a>
+                            <span class="book-author">{{ $book->author }}</span>
+                        </div>
+                        <div>
+                            <div class="book-rating">
+                                {{ number_format($book->reviews_avg_rating, 1) }}
+                            </div>
+                            <div class="book-review-count">
+                                out of {{ $book->reviews_count }}
+                                {{ Str::plural('review', $book->reviews_count) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        @empty
+            <li class="mb-4">
+                <div class="empty-book-item">
+                    <p class="empty-text">No books found</p>
+                    <a href="{{ route('books.index') }}" class="reset-link">Reset criteria</a>
+                </div>
+            </li>
+        @endforelse
+    </ul>
+    {{-- <div class="flex items-center justify-between mb-6">
+        <h1 class="text-3xl font-bold text-slate-800">Books</h1>
+        <a href="{{ route('books.index') }}" class="reset-link text-sm">Reset filters</a>
+    </div>
+
+    <form method="GET" action="{{ route('books.index') }}" class="filter-container mb-8">
+        <label class="flex-1">
+            <span class="sr-only">Title filter</span>
+            <input
+                type="text"
+                name="title"
+                value="{{ request('title') }}"
+                placeholder="Filter by title..."
+                class="input"
+            />
+        </label>
+        <button type="submit" class="btn h-auto">Search</button>
+    </form>
+
+    <div class="space-y-4">
+        @forelse ($books as $book)
+            <article class="book-item">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="book-title">{{ $book->title }}</p>
+                        <span class="book-author">by {{ $book->author }}</span>
+                    </div>
+                    <span class="text-xs text-slate-500">{{ $book->created_at->format('M j, Y') }}</span>
+                </div>
+            </article>
+        @empty
+            <div class="empty-book-item">
+                <p class="empty-text">No books found.</p>
+                @if (request('title'))
+                    <p class="text-xs text-slate-500 mt-2">Try shortening or clearing your search.</p>
+                @endif
+            </div>
+        @endforelse
+    </div> --}}
+@endsection
