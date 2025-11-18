@@ -3,15 +3,26 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Book;
 
 class BookController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $title = $request->input('title');
+        $books = Book::when(
+            $title,
+            fn ($query, $title) => $query->title($title)
+        )->get();
+
+        //  $books = Book::when($title, function ($query, $title) {
+        //  return  $query->title($title);
+        // })->get();
+        //this runs only when title is not null, it is a conditional statement helped by When
+
     }
 
     /**
