@@ -18,7 +18,7 @@ class BookController extends Controller
             fn ($query, $title) => $query->title($title)
         )->get();
         return view('books.index', ['books' => $books]);
-
+        // the way this query works is that if title is there the query is limited to search with title, else it does not limit the query
         //  $books = Book::when($title, function ($query, $title) {
         //  return  $query->title($title);
         // })->get();

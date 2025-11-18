@@ -3,7 +3,15 @@
 @section('content')
     <h1 class="mb-10 text-2xl">Book Reviews</h1>
 
-    <Form></Form>
+    <Form method="GET" action="{{ route('books.index') }}" class="mb-4 flex items-center space-x-2">
+        {{-- class="filter-container" --}}
+        @csrf
+        <input type="text" name="title" placeholder="Search book by title " class="input"
+            value="{{ request('title') }}"></input>
+
+        <button type="submit" class="btn h-10">Search</button>
+        <a href="{{ route('books.index') }}" class="btn h-10">Clear</a>
+    </Form>
     <ul>
         @forelse ($books as $book)
             <li class="mb-4">
