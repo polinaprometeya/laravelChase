@@ -60,9 +60,19 @@ class BookController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Book $book)
     {
-        //
+        // Book::with('reviews')->findOneOrFail();
+        // Book::with('reviews')->get();
+        // return view('books.show', ['book' => $book]);
+        //the relationship is lazy loaded the first time it encounters relationship stated $book->reviews since models relationship is accessed here .
+        //So all relationships are loaded. Both in php files and in templates.
+
+        return view(
+            'books.show',
+            ['book' => $book->load(['reviews' => fn ($query) => $query->latest()])
+        ]
+        );
     }
 
     /**
