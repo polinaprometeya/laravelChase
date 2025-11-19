@@ -25,7 +25,7 @@ class BookController extends Controller
             'popular_last_quarter' => $books->popularLastQuarter(),
             'highest_rated_last_month' => $books->highestRatedLastMonth(),
             'highest_rated_last_quarter' => $books->highestRatedLastQuarter(),
-            default => $books->latest()
+            default => $books->latest()->withAvgRating()->withReviewsCount()
         };
 
         //$books = $books->get();
@@ -36,10 +36,14 @@ class BookController extends Controller
 
         $cacheKey = 'books:' . $filter . ':' . $title ;
         //$books = cache()->remember($cacheKey, 3600, fn () => $books->get());
-        $books = cache()->remember($cacheKey, 3600, function () use ($books) {
-            // dd('this is not from cache');
-            return $books->get();
-        });
+        $books = cache()->remember(
+            $cacheKey,
+            3600,
+            function () use ($books) {
+                // dd('this is not from cache');
+                return $books->get();
+            }
+        );
 
         // the way this query works is that if title is there the query is limited to search with title, else it does not limit the query
         //  $books = Book::when($title, function ($query, $title) {
@@ -71,21 +75,20 @@ class BookController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Book $book)
+    public function show(int $id)
     {
-        // Book::with('reviews')->findOneOrFail();
-        // Book::with('reviews')->get();
-        // return view('books.show', ['book' => $book]);
-        //the relationship is lazy loaded the first time it encounters relationship stated $book->reviews since models relationship is accessed here .
-        //   return view('books.show', ['book' => $book->load(['reviews' => fn ($query) => $query->latest()  ]) ] );
-        //So all relationships are loaded. Both in php files and in templates.
-        //we do not cache the book itself because we are using route model binding --> "show(Book $book)"
-
-        //this is caching the reviews
-        $cacheKey = 'book:' . $book->id;
-        $book = cache()->remember($cacheKey, 3600, fn () => $book->load(
-            ['reviews' => fn ($query) => $query->latest()]
-        ));
+        $cacheKey = 'book:' . $id;
+        //there is a way to clear cache when code is changed , if you use redis
+        $book = cache()->remember(
+            $cacheKey,
+            3600,
+            fn () =>
+        Book::with(
+            ['reviews' => fn ($query) => $query->latest()
+            ]
+        )->withAvgRating()->WithReviewsCount()->findOrFail($id)
+        );
+        //what is the difference between findOneOrFail or findOrFail
         return view(
             'books.show',
             ['book' => $book ]
@@ -93,6 +96,28 @@ class BookController extends Controller
 
     }
 
+    //public function show(Book $book)
+    // {
+    //     // Book::with('reviews')->findOneOrFail();
+    //     // Book::with('reviews')->get();
+    //     // return view('books.show', ['book' => $book]);
+    //     //the relationship is lazy loaded the first time it encounters relationship stated $book->reviews since models relationship is accessed here .
+    //     //   return view('books.show', ['book' => $book->load(['reviews' => fn ($query) => $query->latest()  ]) ] );
+    //     //So all relationships are loaded. Both in php files and in templates.
+    //     //we do not cache the book itself because we are using route model binding --> "show(Book $book)"
+
+    //     //this is caching the reviews
+    //     $cacheKey = 'book:' . $book->id;
+    //     $book = cache()->remember($cacheKey, 3600,
+    //     fn () => $book->load(
+    //         ['reviews' => fn ($query) => $query->latest()]
+    //     ));
+    //     return view(
+    //         'books.show',
+    //         ['book' => $book ]
+    //     );
+
+    // }
     /**
      * Show the form for editing the specified resource.
      */
