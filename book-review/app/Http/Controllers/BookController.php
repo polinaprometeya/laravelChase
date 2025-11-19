@@ -77,13 +77,20 @@ class BookController extends Controller
         // Book::with('reviews')->get();
         // return view('books.show', ['book' => $book]);
         //the relationship is lazy loaded the first time it encounters relationship stated $book->reviews since models relationship is accessed here .
+        //   return view('books.show', ['book' => $book->load(['reviews' => fn ($query) => $query->latest()  ]) ] );
         //So all relationships are loaded. Both in php files and in templates.
+        //we do not cache the book itself because we are using route model binding --> "show(Book $book)"
 
+        //this is caching the reviews
+        $cacheKey = 'book:' . $book->id;
+        $book = cache()->remember($cacheKey, 3600, fn () => $book->load(
+            ['reviews' => fn ($query) => $query->latest()]
+        ));
         return view(
             'books.show',
-            ['book' => $book->load(['reviews' => fn ($query) => $query->latest()])
-        ]
+            ['book' => $book ]
         );
+
     }
 
     /**
