@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BookController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Database\Eloquent\Collection;
 
 Route::get('/', function () {
     return redirect()->route('books.index');

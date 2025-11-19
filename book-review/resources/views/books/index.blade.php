@@ -63,6 +63,9 @@
         @endforelse
     </ul>
 
+    @if ($books->count())
+        <nav class="mt-4">{{ $books->links() }}</nav>
+    @endif
     {{-- <div class="flex items-center justify-between mb-6">
         <h1 class="text-3xl font-bold text-slate-800">Books</h1>
         <a href="{{ route('books.index') }}" class="reset-link text-sm">Reset filters</a>

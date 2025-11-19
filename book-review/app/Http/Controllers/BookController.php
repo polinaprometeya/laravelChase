@@ -14,6 +14,7 @@ class BookController extends Controller
     {
         $title = $request->input('title');
         $filter = $request->input('filter', '');
+        $page = $request->input('page', 1);
 
         $books = Book::when(
             $title,
@@ -34,14 +35,19 @@ class BookController extends Controller
         //     $books->get();
         // });  //this is a wrong way to cache since it saves filters and title data and displays it even though we did not choose filters, it can bridge privacy as well
 
-        $cacheKey = 'books:' . $filter . ':' . $title ;
         //$books = cache()->remember($cacheKey, 3600, fn () => $books->get());
+        //$books = $books->paginate($pagination);
+        // Include page number in cache key since pagination is request-specific
+
+        $cacheKey = 'books:' . $filter . ':' . $title . ':page:' . $page;
+
         $books = cache()->remember(
             $cacheKey,
             3600,
             function () use ($books) {
+
                 // dd('this is not from cache');
-                return $books->get();
+                return $books->paginate(20);
             }
         );
 
@@ -75,49 +81,34 @@ class BookController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(int $id)
+    public function show(Request $request, int $id)
     {
-        $cacheKey = 'book:' . $id;
         //there is a way to clear cache when code is changed , if you use redis
+        // Cache the book without reviews (reviews will be paginated separately)
+        $cacheKey = 'book:' . $id;
         $book = cache()->remember(
             $cacheKey,
             3600,
             fn () =>
-        Book::with(
-            ['reviews' => fn ($query) => $query->latest()
-            ]
-        )->withAvgRating()->WithReviewsCount()->findOrFail($id)
+                Book::withAvgRating()->WithReviewsCount()->findOrFail($id)
         );
-        //what is the difference between findOneOrFail or findOrFail
+        //what is the difference between findOneOrFail or findOrFail, findOneOrFail is used to find a single record and if it is not found it will throw an exception, findOrFail is used to find a single record and if it is not found it will return null
+        // Paginate reviews separately (can't paginate inside eager loading)
+        $reviewsPage = $request->input('reviews_page', 1);
+        $reviews = $book->reviews()
+            ->latest()
+            ->paginate(5, ['*'], $reviewsPage)
+            ->withPath(route('books.show', $id));
+
+        // Load the paginated reviews into the book relationship for the view
+        $book->setRelation('reviews', $reviews);
+
         return view(
             'books.show',
-            ['book' => $book ]
+            ['book' => $book]
         );
-
     }
 
-    //public function show(Book $book)
-    // {
-    //     // Book::with('reviews')->findOneOrFail();
-    //     // Book::with('reviews')->get();
-    //     // return view('books.show', ['book' => $book]);
-    //     //the relationship is lazy loaded the first time it encounters relationship stated $book->reviews since models relationship is accessed here .
-    //     //   return view('books.show', ['book' => $book->load(['reviews' => fn ($query) => $query->latest()  ]) ] );
-    //     //So all relationships are loaded. Both in php files and in templates.
-    //     //we do not cache the book itself because we are using route model binding --> "show(Book $book)"
-
-    //     //this is caching the reviews
-    //     $cacheKey = 'book:' . $book->id;
-    //     $book = cache()->remember($cacheKey, 3600,
-    //     fn () => $book->load(
-    //         ['reviews' => fn ($query) => $query->latest()]
-    //     ));
-    //     return view(
-    //         'books.show',
-    //         ['book' => $book ]
-    //     );
-
-    // }
     /**
      * Show the form for editing the specified resource.
      */
@@ -141,4 +132,82 @@ class BookController extends Controller
     {
         //
     }
+
+    //     public function show(int $id)
+    // {
+    //     $cacheKey = 'book:' . $id;
+    //     //there is a way to clear cache when code is changed , if you use redis
+    //     $book = cache()->remember(
+    //         $cacheKey,
+    //         3600,
+    //         fn () =>
+    //     Book::with(
+    //         ['reviews' => fn ($query) => $query->latest()
+    //         ]
+    //     )->withAvgRating()->WithReviewsCount()->findOrFail($id)
+    //     );
+    //     //what is the difference between findOneOrFail or findOrFail
+    //     return view(
+    //         'books.show',
+    //         ['book' => $book ]
+    //     );
+
+    // }
+    //public function show(Book $book)
+    // {
+    //     // Book::with('reviews')->findOneOrFail();
+    //     // Book::with('reviews')->get();
+    //     // return view('books.show', ['book' => $book]);
+    //     //the relationship is lazy loaded the first time it encounters relationship stated $book->reviews since models relationship is accessed here .
+    //     //   return view('books.show', ['book' => $book->load(['reviews' => fn ($query) => $query->latest()  ]) ] );
+    //     //So all relationships are loaded. Both in php files and in templates.
+    //     //we do not cache the book itself because we are using route model binding --> "show(Book $book)"
+
+    //     //this is caching the reviews
+    //     $cacheKey = 'book:' . $book->id;
+    //     $book = cache()->remember($cacheKey, 3600,
+    //     fn () => $book->load(
+    //         ['reviews' => fn ($query) => $query->latest()]
+    //     ));
+    //     return view(
+    //         'books.show',
+    //         ['book' => $book ]
+    //     );
+
+    // }
+
+    //     public function index(Request $request)
+    // {
+    //     $title = $request->input('title');
+    //     $filter = $request->input('filter', '');
+
+    //     $books = Book::when(
+    //         $title,
+    //         fn ($query, $title) => $query->title($title)
+    //     );
+
+    //     $books = match($filter) {
+    //         'popular_last_month' => $books->popularLastMonth(),
+    //         'popular_last_quarter' => $books->popularLastQuarter(),
+    //         'highest_rated_last_month' => $books->highestRatedLastMonth(),
+    //         'highest_rated_last_quarter' => $books->highestRatedLastQuarter(),
+    //         default => $books->latest()->withAvgRating()->withReviewsCount()
+    //     };
+
+    //     //$books = $books->get();
+
+    //     // $books = Cache::remember('books', 3600, function () {
+    //     //     $books->get();
+    //     // });  //this is a wrong way to cache since it saves filters and title data and displays it even though we did not choose filters, it can bridge privacy as well
+
+    //     $cacheKey = 'books:' . $filter . ':' . $title ;
+    //     //$books = cache()->remember($cacheKey, 3600, fn () => $books->get());
+    //     $books = cache()->remember(
+    //         $cacheKey,
+    //         3600,
+    //         function () use ($books) {
+    //             // dd('this is not from cache');
+    //             return $books->get();
+    //         }
+    //     );
 }
