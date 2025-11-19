@@ -28,7 +28,18 @@ class BookController extends Controller
             default => $books->latest()
         };
 
-        $books = $books->get();
+        //$books = $books->get();
+
+        // $books = Cache::remember('books', 3600, function () {
+        //     $books->get();
+        // });  //this is a wrong way to cache since it saves filters and title data and displays it even though we did not choose filters, it can bridge privacy as well
+
+        $cacheKey = 'books:' . $filter . ':' . $title ;
+        //$books = cache()->remember($cacheKey, 3600, fn () => $books->get());
+        $books = cache()->remember($cacheKey, 3600, function () use ($books) {
+            // dd('this is not from cache');
+            return $books->get();
+        });
 
         // the way this query works is that if title is there the query is limited to search with title, else it does not limit the query
         //  $books = Book::when($title, function ($query, $title) {
