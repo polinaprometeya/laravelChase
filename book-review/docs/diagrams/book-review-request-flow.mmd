@@ -1,4 +1,4 @@
-%% Mermaid diagram describing the task tracker request flow
+%% Mermaid diagram describing the current book-review request flow
 
 flowchart TD
 
@@ -6,23 +6,34 @@ flowchart TD
 
     Routes{{`routes/web.php`}}
 
-    Controller[[`TaskController`]]
+    BookController[[`App\\Http\\Controllers\\BookController`]]
+    ReviewController[[`App\\Http\\Controllers\\ReviewController`]]
 
-    RequestValidator[[`App\\Http\\Requests\\TaskRequest`]]
+    ReviewRequest[[`App\\Http\\Requests\\ReviewRequest`]]
 
-    Model[[`App\\Models\\Task`]]
+    BookModel[[`App\\Models\\Book`]]
+    ReviewModel[[`App\\Models\\Review`]]
 
-    DB[(SQLite / tasks table)]
+    Cache[(Cache)]
+    DB[(Database)]
 
-    Visitor -->|HTTP request| Routes
+    Visitor -->|HTTP GET| Routes
 
-    Routes --> Controller
+    Routes -->|`books.index`, `books.show`| BookController
+    BookController -->|filter & scope queries| BookModel
+    BookController -->|cache remember| Cache
+    Cache --> BookController
+    BookModel -->|Eloquent ORM| DB
+    BookController -->|returns Blade views (`books.index`, `books.show`)| Visitor
 
-    Controller -->|Validates input| RequestValidator
+    Routes -->|`books.reviews.create`| ReviewController
+    ReviewController -->|returns Blade view (`books.reviews.create`)| Visitor
 
-    Controller -->|Reads/Writes| Model
-
-    Model -->|Eloquent ORM| DB
-
-    Controller -->|Returns Blade views| Visitor
+    Routes -->|POST `books/{book}/reviews`| ReviewController
+    ReviewController -->|validated data| ReviewRequest
+    ReviewRequest --> ReviewController
+    ReviewController -->|`reviews()->create()`| ReviewModel
+    ReviewModel -->|belongsTo| BookModel
+    ReviewModel -->|persist| DB
+    ReviewController -->|redirect to `books.show`| Visitor
 
