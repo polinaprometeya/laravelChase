@@ -94,10 +94,11 @@ class BookController extends Controller
         );
         //what is the difference between findOneOrFail or findOrFail, findOneOrFail is used to find a single record and if it is not found it will throw an exception, findOrFail is used to find a single record and if it is not found it will return null
         // Paginate reviews separately (can't paginate inside eager loading)
-        $reviewsPage = $request->input('reviews_page', 1);
+        // $reviewsPage = $request->input('reviews_page', 1);
+
         $reviews = $book->reviews()
             ->latest()
-            ->paginate(5, ['*'], $reviewsPage)
+            ->paginate(5, ['*'], 'reviews_page')
             ->withPath(route('books.show', $id));
 
         // Load the paginated reviews into the book relationship for the view
