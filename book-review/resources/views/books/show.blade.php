@@ -12,7 +12,7 @@
                     <x-star-rating :rating="$book->reviews_avg_rating"></x-star-rating>
                 </div>
                 <span class="book-review-count text-sm text-gray-500">
-                    {{ $book->reviews_count }} {{ Str::plural('review', 5) }}
+                    {{ $book->reviews_count }} {{ Str::plural('review', $book->reviews_count) }}
                 </span>
             </div>
         </div>
