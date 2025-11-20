@@ -1,0 +1,19 @@
+@extends('layouts.app')
+
+@section('content')
+    <h1 class="mb-10 text-2xl"> Add review : {{ $book->title }} </h1>
+    <form method="POST" action="{{ route('books.reviews.store', $book) }}">
+        @csrf
+        <label for="review" class="label">Review</label>
+        <textarea name="review" id="review" required placeholder="Write your review" class="input mb-4"></textarea>
+
+        <label for="rating" class="label">Rating</label>
+        <select name="rating" id="rating" class="input mb-4" required>
+            <option value="">Select a Rating</option>
+            @for ($i = 1; $i <= 5; $i++)
+                <option value="{{ $i }}">{{ $i }}</option>
+            @endfor
+        </select>
+        <button type="submit" class="btn">Create</button>
+    </form>
+@endsection

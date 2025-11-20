@@ -14,23 +14,23 @@
             }
 
             .btn {
-                @apply rounded-md px-2 py-1 text-center font-medium text-slate-700 shadow-sm ring-1 ring-slate-700/10 hover:bg-slate-100;
+                @apply mb-10 rounded-md px-2 py-1 text-center font-medium text-slate-700 shadow-sm ring-1 ring-slate-700/10 hover:bg-slate-100;
             }
 
             .link {
-                @apply font-medium text-gray-700 underline decoration-pink-200;
+                @apply mb-10 font-medium text-gray-700 underline decoration-pink-200;
             }
 
             label{
-                @apply block uppercase text-slate-700 mb-2
+                @apply mb-10 block uppercase text-slate-700
             }
 
             input{
-                @apply shadow-sm appearance-none border-slate-100 w-full py-2 px-3 text-slate-800 mb-2 leading-tight focus:outline-none
+                @apply mb-10 shadow-sm appearance-none border-slate-100 w-full py-2 px-3 text-slate-800 leading-tight focus:outline-none
             }
 
             textarea{
-                @apply shadow-sm appearance-none border-slate-700/40 w-full py-2 px-3 text-slate-700 mb-2 leading-tight focus:outline-none
+                @apply mb-10 shadow-sm appearance-none border-slate-700/40 w-full py-2 px-3 text-slate-700 leading-tight focus:outline-none
             }
 
             .error{

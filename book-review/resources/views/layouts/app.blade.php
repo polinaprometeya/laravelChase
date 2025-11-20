@@ -12,8 +12,16 @@
       @apply bg-white rounded-md px-4 py-2 text-center font-medium text-slate-500 shadow-sm ring-1 ring-slate-700/10 hover:bg-slate-50 h-10;
     }
 
+    .label {
+      @apply mb-1 block text-sm font-medium text-slate-700;
+    }
+
     .input {
       @apply shadow-sm appearance-none border w-full py-2 px-3 text-slate-700 leading-tight focus:outline-none rounded-md border-slate-300;
+    }
+
+    .textarea {
+      @apply w-full rounded-md border border-slate-300 px-3 py-2 text-sm text-slate-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-slate-300;
     }
 
     .filter-container {

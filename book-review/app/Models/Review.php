@@ -22,5 +22,6 @@ class Review extends Model
         //there are situations where this is not triggered like in database rollback, mass assignment, work directly in database and some others
         static::updated(fn (Review $review) => cache()->forget('book:' . $review->book_id));
         static::deleted(fn (Review $review) => cache()->forget('book:' . $review->book_id));
+        static::created(fn (Review $review) => cache()->forget('book:' . $review->book_id));
     }
 }
