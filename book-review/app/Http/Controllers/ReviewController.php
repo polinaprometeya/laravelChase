@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ReviewRequest;
 use Illuminate\Http\Request;
 use App\Models\Book;
 
@@ -26,14 +27,10 @@ class ReviewController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, Book $book)
+    public function store(ReviewRequest $request, Book $book)
     {
-        $data = $request->validate([
-            'review' => 'required|min:15',
-            'rating' => 'required|min:1|max:5|integer',
 
-        ]);
-
+        $data = $request->validated(); //when you do not put values manually do not use validate()
         $book->reviews()->create($data);
 
         return redirect()->route('books.show', $book);
@@ -70,4 +67,14 @@ class ReviewController extends Controller
     {
         //
     }
+
+    //     public function store(Request $request, Book $book)
+    // {
+    //     $data = $request->validate([
+    //         'review' => 'required|min:15',
+    //         'rating' => 'required|min:1|max:5|integer',
+    //     ]);
+    //     $book->reviews()->create($data);
+    //     return redirect()->route('books.show', $book);
+    // }
 }
