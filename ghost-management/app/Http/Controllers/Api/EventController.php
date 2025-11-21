@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EventRequest;
+use App\Http\Resources\EventResource;
 use Illuminate\Http\Request;
 use App\Models\Event;
 
@@ -14,7 +15,10 @@ class EventController extends Controller
      */
     public function index()
     {
-        return Event::all();
+        //events collection -- > which means an array was wrapped like this -> {"data":[ my array stuff here {},{}..]}
+        //$events = EventResource::collection(Event::all());
+        $events = EventResource::collection(Event::with('user')->get());
+        return $events;
     }
 
     /**
@@ -24,8 +28,8 @@ class EventController extends Controller
     {
         $data = $request->validated();
         $data['user_id'] = 1;
-
-        return Event::create($data);
+        $event = new EventResource(Event::create($data));
+        return $event;
     }
 
     /**
@@ -33,6 +37,12 @@ class EventController extends Controller
      */
     public function show(Event $event)
     {
+        $event->load('user', 'attendees');
+        //EventResource -- wrapper decides how things are serialized
+        //and therefore can help make sure some values are not returned in certain cases
+        //or data type of returned property is different in certain cases
+        //it can also be used to sterilize data so it looks different then in Eloquent model and hide data
+        $event = new EventResource($event);
         return $event;
     }
 
@@ -45,6 +55,7 @@ class EventController extends Controller
 
         $event->update($data);
 
+        $event = new EventResource($event);
         return $event;
 
     }
