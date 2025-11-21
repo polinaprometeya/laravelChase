@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Models\Event;
 
 class Attendee extends Model
 {
@@ -16,9 +17,9 @@ class Attendee extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function attendees(): HasMany
+    public function event(): BelongsTo
     {
-        return $this->hasMany(Attendee::class);
+        return $this->belongsTo(Event::class);
     }
 
 }

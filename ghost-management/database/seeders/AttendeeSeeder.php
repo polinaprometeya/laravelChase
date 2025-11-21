@@ -6,6 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\User as UserModel;
 use App\Models\Event;
+use App\Models\Attendee;
 
 class AttendeeSeeder extends Seeder
 {
@@ -19,7 +20,13 @@ class AttendeeSeeder extends Seeder
         foreach ($users as $user) {
             $eventsToAttend = $events->random(rand(1, 3));
 
+            foreach ($eventsToAttend as $event) {
+                Attendee::create([
+                    'user_id' => $user->id,
+                    'event_id' => $event->id
 
+                ]);
+            }
         }
     }
 }
