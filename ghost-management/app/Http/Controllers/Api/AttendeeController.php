@@ -3,32 +3,43 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AttendeeRequest;
+use App\Http\Resources\AttendeeResource;
+use App\Models\Attendee;
 use Illuminate\Http\Request;
+use App\Models\Event;
+use App\Models\User as UserModel;
 
 class AttendeeController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Event $event)
     {
-        //
+        $data = $event->attendees()->latest();
+        $attendees = AttendeeResource::collection(
+            $data->paginate()
+        );
+        return $attendees;
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, Event $event)
     {
-        //
+        $data = $event->attendees()->create(['user_id' => 1]);
+        $attendee = new AttendeeResource($data);
+        return $attendee;
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Event $event, Attendee $attendee)
     {
-        //
+        return new AttendeeResource($attendee);
     }
 
     /**
