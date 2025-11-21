@@ -27,5 +27,12 @@ class EventRequest extends FormRequest
             'start_time' => 'required|date',
             'end_time' => 'required|date|after:start_time',
         ];
+        //   return [
+        //     'name' => 'sometimes|string|max:255',
+        //     'description' => 'nullable|string',
+        //     'start_time' => 'sometimes|date',
+        //     'end_time' => 'sometimes|date|after:start_time',
+        // ];
+
     }
 }
