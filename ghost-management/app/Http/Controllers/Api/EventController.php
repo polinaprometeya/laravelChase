@@ -17,7 +17,7 @@ class EventController extends Controller
     {
         //events collection -- > which means an array was wrapped like this -> {"data":[ my array stuff here {},{}..]}
         //$events = EventResource::collection(Event::all());
-        $events = EventResource::collection(Event::with('user')->get());
+        $events = EventResource::collection(Event::with('user')->paginate());
         return $events;
     }
 
