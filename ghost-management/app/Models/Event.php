@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Event extends Model
 {
     use HasFactory;
+    //traits are added and used to classes
+    //traits add extra methods without using inheritance
 
     protected $fillable = [
         'name',
