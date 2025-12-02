@@ -13,6 +13,13 @@ class EventController extends Controller
 {
     use CanLoadRelationships;
     private array $relations = ['user', 'attendees', 'attendees.user']; //this controls what can be loaded and what cannot
+
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum')->except(['index', 'show']);
+          //middleware here needs controller to extend base controller to work
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -59,7 +66,7 @@ class EventController extends Controller
     public function store(EventRequest $request)
     {
         $data = $request->validated();
-        $data['user_id'] = 1;
+        $data['user_id'] = $request->user()->id;
 
         // $event = Event::create([ $request->validate([
         //     'name' => 'required|string|max:255',
