@@ -80,7 +80,7 @@ class EventController extends Controller
      */
     public function show(Event $event)
     {
-        //if you skip model binding method, you would need to use findorfail
+        //if you skip model binding method, you would need to use findOrFail
         $event = new EventResource($this->loadRelationships($event));
         //$event->load('user', 'attendees'); --> manual relationships
         //EventResource -- wrapper decides how things are serialized

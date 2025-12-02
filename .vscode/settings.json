@@ -1,15 +1,14 @@
 {
-  "cSpell.words": [
-    "enderror",
-    "enderrors",
-    "endfor",
-    "endforeach",
-    "endforelse",
-    "endisset",
-    "endphp",
-    "endsection",
-    "forelse",
-    "isset",
-    "lazyloading"
-  ]
+  "i18n-ally.localesPaths": [
+    "ghost-management/lang",
+    "book-review/lang",
+    "ghost-laravel-app/lang"
+  ],
+  "i18n-ally.keystyle": "nested",
+  "i18n-ally.sourceLanguage": "en",
+  "i18n-ally.displayLanguage": "en",
+  "i18n-ally.enabledFrameworks": ["laravel"],
+  "i18n-ally.pathMatcher": "{locale}/{namespace}.{ext}",
+  "i18n-ally.enabledParsers": ["php"],
+  "i18n-ally.namespace": false
 }
