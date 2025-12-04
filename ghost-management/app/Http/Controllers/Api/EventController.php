@@ -17,7 +17,7 @@ class EventController extends Controller
     public function __construct()
     {
         $this->middleware('auth:sanctum')->except(['index', 'show']);
-          //middleware here needs controller to extend base controller to work
+        //middleware here needs controller to extend base controller to work
     }
 
     /**
@@ -93,7 +93,7 @@ class EventController extends Controller
 
         $event->update($data);
 
-        $event = new EventResource($event);
+        $event = new EventResource($this->loadRelationships($event));
         return $event;
 
     }
