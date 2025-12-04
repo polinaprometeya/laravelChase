@@ -22,13 +22,14 @@ class AttendeeController extends Controller
      */
     public function index(Event $event)
     {
-        $attendees = $this->loadRelationships(
+        $query = $this->loadRelationships(
             $event->attendees()->latest()
         );
-        // $data = $event->attendees()->latest();
-        // $attendees = AttendeeResource::collection(
-        //     $data->paginate()
-        // );
+        
+        $attendees = AttendeeResource::collection(
+            $query->paginate()
+        );
+        
         return $attendees;
     }
 
