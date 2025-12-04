@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
 use App\Models\Book;
 use App\Models\Review;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;

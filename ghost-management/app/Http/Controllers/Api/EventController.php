@@ -18,6 +18,7 @@ class EventController extends Controller
     public function __construct()
     {
         $this->middleware('auth:sanctum')->except(['index', 'show']);
+        $this->authorizeResource(Event::class, 'event');
         //middleware here needs controller to extend base controller to work
     }
 
@@ -90,10 +91,7 @@ class EventController extends Controller
      */
     public function update(EventRequest $request, Event $event)
     {
-        if (FacadesGate::denies('update-event', $event)) {
-            abort(403, 'You are not authorized to update this event');
-        };
-
+        // if (FacadesGate::denies('update-event', $event)) { abort(403, 'You are not authorized to update this event'); };
         //FacadesGate::authorize('update-event', $event);
 
         $data = $request->validated();

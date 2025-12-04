@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
+use App\Models\User as UserModel;
 use App\Models\Task;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -17,8 +17,8 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         //   \app\Models\User::factory(10)->create();  <---- old syntax without use App\Models\User;
-        User::factory(1)->create();
-        User::factory(1)->unverified()->create();
+        UserModel::factory(1)->create();
+        UserModel::factory(1)->unverified()->create();
         Task::factory(1)->create();
 
         //this always adds new data on top of what is already there. So it does not update. any data.
