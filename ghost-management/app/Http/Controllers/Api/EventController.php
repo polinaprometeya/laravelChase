@@ -66,6 +66,9 @@ class EventController extends Controller
         //$event = new EventResource(Event::create($data));
         //$event = new EventResource($event);
 
+        //you can add manual authorization
+        //this->authorize('create', Post::class);
+
         $event = new EventResource($this->loadRelationships(Event::create($data)));
         return $event;
     }
