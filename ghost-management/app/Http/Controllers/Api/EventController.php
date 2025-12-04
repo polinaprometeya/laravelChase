@@ -8,6 +8,7 @@ use App\Http\Resources\EventResource;
 use App\Http\Traits\CanLoadRelationships;
 use Illuminate\Http\Request;
 use App\Models\Event;
+use Illuminate\Support\Facades\Gate as FacadesGate;
 
 class EventController extends Controller
 {
@@ -89,6 +90,12 @@ class EventController extends Controller
      */
     public function update(EventRequest $request, Event $event)
     {
+        if (FacadesGate::denies('update-event', $event)) {
+            abort(403, 'You are not authorized to update this event');
+        };
+
+        //FacadesGate::authorize('update-event', $event);
+
         $data = $request->validated();
 
         $event->update($data);

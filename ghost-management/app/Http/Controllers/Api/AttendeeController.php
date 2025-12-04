@@ -10,12 +10,19 @@ use App\Models\Attendee;
 use Illuminate\Http\Request;
 use App\Models\Event;
 use App\Models\User as UserModel;
+use Illuminate\Support\Facades\Gate as FacadesGate;
 
 class AttendeeController extends Controller
 {
     use CanLoadRelationships;
 
     private array $relations = ['user'];
+
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum')->except(['index', 'show', 'update']);
+        //middleware here needs controller to extend base controller to work
+    }
 
     /**
      * Display a listing of the resource.
@@ -25,11 +32,11 @@ class AttendeeController extends Controller
         $query = $this->loadRelationships(
             $event->attendees()->latest()
         );
-        
+
         $attendees = AttendeeResource::collection(
             $query->paginate()
         );
-        
+
         return $attendees;
     }
 
@@ -73,6 +80,12 @@ class AttendeeController extends Controller
      */
     public function destroy(Event $event, Attendee $attendee)
     {
+        if (FacadesGate::denies('delete-attendee', [$event, $attendee])) {
+            abort(403, 'You are not authorized to delete this attendee');
+        };
+
+        //FacadesGate::authorize('delete-attendee', [$event, $attendee]);
+
         $attendee->delete();
         return response(status: 204);
     }
