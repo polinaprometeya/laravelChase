@@ -47,7 +47,7 @@ return [
     |
     */
 
-    'expiration' => null,
+    'expiration' => 60 * 24, //login token expires after 24 hours
 
     /*
     |--------------------------------------------------------------------------
