@@ -46,20 +46,6 @@ class EventController extends Controller
         return $events;
     }
 
-    protected function shouldIncludeRelation(string $relation): bool
-    {
-        $include = request()->query('include');
-        if (!$include) {
-            return false;
-        }
-
-        $relations = array_map('trim', explode(',', $include));
-        //dd($relations);
-        //return $relations;
-
-        return in_array($relation, $relations);
-    }
-
     /**
      * Store a newly created resource in storage.
      */

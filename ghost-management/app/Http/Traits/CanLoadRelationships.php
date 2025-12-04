@@ -27,4 +27,20 @@ trait CanLoadRelationships
         }
         return $for;
     }
+
+    /**
+     * Determine if a relation should be included based on the 'include' query parameter.
+     * Controllers can override this method to customize the behavior.
+     */
+    protected function shouldIncludeRelation(string $relation): bool
+    {
+        $include = request()->query('include');
+        if (!$include) {
+            return false;
+        }
+
+        $relations = array_map('trim', explode(',', $include));
+
+        return in_array($relation, $relations);
+    }
 }
