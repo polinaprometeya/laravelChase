@@ -3,6 +3,9 @@
 .env
 .env.backup
 .env.production
+.env.*.local
+.env.local
+.env.testing
 .phpactor.json
 .phpunit.result.cache
 /.fleet
@@ -22,3 +25,29 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
+
+# Database files
+*.sqlite
+*.sqlite3
+*.db
+database/*.sqlite
+database/*.sqlite3
+
+# Docker volumes and data
+docker/mysql/data/
+*.docker-volume
+
+# Backup files
+*.bak
+*.backup
+*.old
+*.orig
+*.tmp
+
+# IDE and editor files that might contain sensitive data
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
