@@ -16,13 +16,14 @@ class AttendeeController extends Controller
     use CanLoadRelationships;
 
     private array $relations = ['user'];
+
     /**
      * Display a listing of the resource.
      */
     public function index(Event $event)
     {
         $attendees = $this->loadRelationships(
-            $event->attendees()->lates()
+            $event->attendees()->latest()
         );
         // $data = $event->attendees()->latest();
         // $attendees = AttendeeResource::collection(
