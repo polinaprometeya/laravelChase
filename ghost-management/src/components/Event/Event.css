@@ -118,6 +118,10 @@
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     padding: 1.5rem;
     transition: box-shadow 0.2s;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    width: 100%;
 }
 
 .dark .event-card {
@@ -162,5 +166,18 @@
 
 .dark .event-date {
     color: #6b7280;
+}
+
+/* Event show (detail view) */
+.event-show-card {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.event-show-description {
+    margin-bottom: 1rem;
+    line-clamp: unset;
+    -webkit-line-clamp: unset;
+    display: block;
 }
 
