@@ -1,2 +1,5 @@
 ghost-management/docker-compose.yml
+
+# macOS system files
 .DS_Store
+**/.DS_Store
