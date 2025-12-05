@@ -13,5 +13,7 @@ if (rootElement) {
             <App />
         </React.StrictMode>
     );
+} else {
+    console.error('Root element with id="app" not found!');
 }
 
