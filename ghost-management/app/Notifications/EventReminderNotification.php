@@ -9,8 +9,11 @@ use Illuminate\Notifications\Notification;
 use App\Models\User as UserModel;
 use App\Models\Event;
 
-class EventReminderNotification extends Notification
+class EventReminderNotification extends Notification implements ShouldQueue
 {
+    //so implements ShouldQueue this is how you tell laravel that this is background job
+    //because of this the notifications are in a job table in database and need extra command always running to execute now.
+    //php artisan queue:work , it also would need to be restarted when code is changed
     use Queueable;
 
     /**
