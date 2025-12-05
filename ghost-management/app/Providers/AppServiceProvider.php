@@ -38,6 +38,11 @@ class AppServiceProvider extends ServiceProvider
     //Good for application wide global authentication
     public function boot(): void
     {
+        //rate limiter is for protection against abuse
+        RateLimiter::for('api', function (Request $request) {
+            return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
+        }); //max 60 request in 1 minute - rate limiter
+
         // RateLimiter::for('reviews', function (Request $request) {
         //     return Limit::perHour(3)->by(optional($request->user())->id ?: $request->ip());
         // });
