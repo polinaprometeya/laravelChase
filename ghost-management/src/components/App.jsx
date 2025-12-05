@@ -1,5 +1,4 @@
-import React from 'react';
-import EventList from './EventList';
+// import EventList from './EventList';
 
 function App() {
     return (
@@ -15,7 +14,12 @@ function App() {
                 </header>
                 
                 <main>
-                    <EventList />
+                    <div className="text-center py-12">
+                        <p className="text-gray-600 dark:text-gray-400">
+                            Welcome to Ghost Management
+                        </p>
+                    </div>
+                    {/* <EventList /> */}
                 </main>
             </div>
         </div>

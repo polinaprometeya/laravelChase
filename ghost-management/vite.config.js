@@ -1,6 +1,5 @@
 import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
-import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
@@ -9,7 +8,18 @@ export default defineConfig({
             input: ['resources/css/app.css', 'src/index.jsx'],
             refresh: true,
         }),
-        react(),
         tailwindcss(),
     ],
+    esbuild: {
+        jsx: 'automatic',
+        jsxImportSource: 'react',
+    },
+    server: {
+        host: '0.0.0.0',
+        port: 5173,
+        strictPort: false,
+        hmr: {
+            host: 'localhost',
+        },
+    },
 });
