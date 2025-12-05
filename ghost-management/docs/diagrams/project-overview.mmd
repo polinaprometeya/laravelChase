@@ -1,0 +1,40 @@
+%% Mermaid diagram describing the ghost-management API request flow
+flowchart TD
+    Client([API Client])
+    Routes{{`routes/api.php`}}
+    AuthController[[`AuthController`]]
+    EventController[[`EventController`]]
+    AttendeeController[[`AttendeeController`]]
+    RequestValidator[[`EventRequest`<br/>`AttendeeRequest`]]
+    Policy[[`EventPolicy`<br/>`AttendeePolicy`]]
+    Model[[`Event`<br/>`Attendee`<br/>`User`]]
+    Resource[[`EventResource`<br/>`AttendeeResource`<br/>`UserResource`]]
+    DB[(SQLite / Database)]
+    Sanctum[Sanctum Auth]
+
+    Client -->|HTTP request| Routes
+    Routes -->|POST /login| AuthController
+    Routes -->|POST /logout| AuthController
+    Routes -->|GET /user| Sanctum
+    Routes -->|apiResource events| EventController
+    Routes -->|apiResource events.attendees| AttendeeController
+    
+    AuthController -->|Validates credentials| Model
+    AuthController -->|Creates token| Sanctum
+    AuthController -->|Returns token| Client
+    
+    EventController -->|Validates input| RequestValidator
+    EventController -->|Checks authorization| Policy
+    EventController -->|Reads/Writes| Model
+    EventController -->|Transforms data| Resource
+    EventController -->|Returns JSON| Client
+    
+    AttendeeController -->|Validates input| RequestValidator
+    AttendeeController -->|Checks authorization| Policy
+    AttendeeController -->|Reads/Writes| Model
+    AttendeeController -->|Transforms data| Resource
+    AttendeeController -->|Returns JSON| Client
+    
+    Model -->|Eloquent ORM| DB
+    Sanctum -->|Validates token| Model
+
