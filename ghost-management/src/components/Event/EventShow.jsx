@@ -1,3 +1,5 @@
+import EventCard from "./EventCard";
+
 export default function EventShow({ event, onBack, formatEventDate }) {
     return (
         <>
@@ -10,21 +12,12 @@ export default function EventShow({ event, onBack, formatEventDate }) {
                     Back to List
                 </button>
             </div>
-            <div className="event-card event-show-card">
-                <h3 className="event-name">{event.name}</h3>
-                {/* Conditional rendering: only show description if it exists */}
-                {event.description && (
-                    <p className="event-description event-show-description">
-                        {event.description}
-                    </p>
-                )}
-                {/* Conditional rendering: only show date if it exists */}
-                {event.start_time && (
-                    <p className="event-date">
-                        {formatEventDate(event.start_time)}
-                    </p>
-                )}
-            </div>
+            <EventCard
+                event={event}
+                formatEventDate={formatEventDate}
+                className="event-show-card"
+                descriptionClassName="event-show-description"
+            />
         </>
     );
 }

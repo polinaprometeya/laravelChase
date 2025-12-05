@@ -6,5 +6,5 @@
   "i18n-ally.pathMatcher": "{locale}/{namespace}.{ext}",
   "i18n-ally.enabledParsers": ["php"],
   "i18n-ally.namespace": false,
-  "cSpell.words": ["Queueable"]
+  "cSpell.words": ["Laravel", "Queueable"]
 }

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import EventShow from "./EventShow";
+import EventCard from "./EventCard";
 // Use window.axios instead of importing axios directly
 // window.axios is configured in bootstrap.js with CSRF tokens, headers, and interceptors
 // This ensures all HTTP requests use the same configured instance
@@ -107,24 +108,12 @@ function EventList() {
     // .map() creates a new array by calling a function on each item
     // Each event needs a unique "key" prop so React can track which items changed
     const eventCards = eventList.map((event) => (
-        <button
-            key={event.id} // key prop helps React efficiently update the list
-            onClick={() => handleCardClick(event)}
-            className="event-card"
-            type="button"
-        >
-            <h3 className="event-name">{event.name}</h3>
-            {/* Conditional rendering: only show description if it exists */}
-            {event.description && (
-                <p className="event-description">{event.description}</p>
-            )}
-            {/* Conditional rendering: only show date if it exists */}
-            {event.start_time && (
-                <p className="event-date">
-                    {formatEventDate(event.start_time)}
-                </p>
-            )}
-        </button>
+        <EventCard
+            key={event.id}
+            event={event}
+            formatEventDate={formatEventDate}
+            onClick={handleCardClick}
+        />
     ));
 
     // Determine what content to show based on whether we have events
