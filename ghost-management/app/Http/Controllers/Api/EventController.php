@@ -21,6 +21,8 @@ class EventController extends Controller
         $this->middleware('throttle:api')->only(['store', 'update', 'destroy']);
         $this->authorizeResource(Event::class, 'event');
         //middleware here needs controller to extend base controller to work
+
+        //$this->middleware('throttle:60,1')->only(['store', 'update', 'destroy']); --> now it is configured in AppServiceProvider
     }
 
     /**
