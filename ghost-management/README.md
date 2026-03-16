@@ -27,6 +27,8 @@ Laravel is accessible, powerful, and provides tools required for large, robust a
 2. Install php dependencies "composer install"
 3. If you do not have mock DB yet run "php artisan migrate"
 4. Run "php artisan serve"
+5. Get dependencies for web -- Run "npm install"
+6. To start React "npm run dev"
 
 ## Premium Partners
 
