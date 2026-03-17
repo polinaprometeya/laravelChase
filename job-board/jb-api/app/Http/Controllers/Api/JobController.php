@@ -1,18 +1,39 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use App\Models\Job;
 use Illuminate\Http\Request;
+use App\Http\Traits\CanLoadRelationships;
 
 class JobController extends Controller
 {
+    // use CanLoadRelationships;
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+
+
+        $query = Job::query();
+        // foreach ($relations as $relation) {
+        //     $query -> when(
+        //         $this->shouldIncludeRelation($relation),
+        //         fn ($option) => $option->with($relation)
+        //     );
+        // }
+
+        //$this->shouldIncludeRelation('user');
+        //events collection -- > which means an array was wrapped like this -> {"data":[ my array stuff here {},{}..]}
+        //$events = EventResource::collection(Event::all());
+
+        // $jobs = JobResource::collection(
+        //     $query->latest()->paginate()
+        // );
+
+        return $query;
     }
 
     /**
