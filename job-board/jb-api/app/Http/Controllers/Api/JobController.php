@@ -18,12 +18,15 @@ class JobController extends Controller
 
 
         $query = Job::query();
+        // simplest: return all jobs as JSON
+
         // foreach ($relations as $relation) {
         //     $query -> when(
         //         $this->shouldIncludeRelation($relation),
         //         fn ($option) => $option->with($relation)
         //     );
         // }
+
 
         //$this->shouldIncludeRelation('user');
         //events collection -- > which means an array was wrapped like this -> {"data":[ my array stuff here {},{}..]}
@@ -33,7 +36,10 @@ class JobController extends Controller
         //     $query->latest()->paginate()
         // );
 
-        return $query;
+        // $jobs = Job::query()->latest()->paginate();
+        // return JobResource::collection($jobs);
+
+        return $query->get(); // ✅ returns a Collection of Job models
     }
 
     /**
