@@ -1,9 +1,9 @@
-
-export default function Card() {
+import "../styles/App.css";
+export default function Card({ children }) {
   return (
     <>
-      <div>
-        <p>Card</p>
+      <div className="card">
+      {children}
       </div>
     </>
   );

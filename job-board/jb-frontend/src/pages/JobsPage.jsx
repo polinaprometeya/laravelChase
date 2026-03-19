@@ -1,6 +1,7 @@
 import "../styles/JobBoard.css";
 import { useState, useEffect } from "react";
 import { getJobs } from "../services/routes";
+import Card from "../components/Card";
 
 export default function JobsPage() {
   const [jobsData, setJobsData] = useState([]);
@@ -27,14 +28,17 @@ export default function JobsPage() {
     <>
         <table>
           <tbody >
-            {jobsData.map((job) => (
-              <tr key={job.id}>
-                <td>{job.title}</td>
-              </tr>
+            <tr>
+                       
+              {jobsData.map((job) => (
+              <Card> 
+                <td key={job.id}>{job.title}</td>
+              </Card>
             ))}
+            
+            </tr>
           </tbody>
         </table>
-      
     </>
   );
 }
