@@ -1,0 +1,16 @@
+@media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #131414; /* bg-slate-200 ( #e2e8f0;)*/
+      /* ... */
+    }
+  }
+
+body {
+    background-color: #131414;
+  } 
+
+.job-page-body {
+    margin: 2.5rem auto;        /* mt-10 + mx-auto */
+    max-width: 42rem;           /* ~max-w-2xl */
+    color: #334155;             /* text-slate-700 */
+  }
